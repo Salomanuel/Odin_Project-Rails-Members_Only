@@ -55,27 +55,34 @@ class UserTest < ActiveSupport::TestCase
 
 	test "NOT valid emails are unvalid" do
 		unvalid = %w(								plainaddress
-								#@%^%#$@#$@#.com
-								@example.com
-								email.example.com
-								email.@example.com
-								あいうえお@example.com
-								
-								email@example
-								email@-example.com
-								email@example..com
+									#@%^%#$@#$@#.com
+									@example.com
+									email.example.com
+									email.@example.com
+									あいうえお@example.com
+									email@example
+									email@-example.com
+									email@example..com
 
-								JoeSmith<email@example.com>
+									JoeSmith<email@example.com>
+									email@example@example.com
+									.email@example.com
+									email..email@example.com
+									email@example.com(JoeSmith)		
+									Abc..123@example.com
 
-
-
-
-)
+								)
 		unvalid.each do |e| 
 			@user.email = e
 			puts e
 			assert_not @user.valid?
 		end
+	end
+
+	test "emails should be UNIQUE" do
+		duplicate_user = @user.dup
+		@user.save
+		assert_not duplicate_user.valid?
 	end
 
 	# PASSWORD
