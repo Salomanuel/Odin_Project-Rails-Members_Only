@@ -49,7 +49,7 @@ class UserTest < ActiveSupport::TestCase
 							firstname-lastname@example.com)
 		valid.each 		do |e| 
 			@user.email = e
-			assert @user.valid?
+			assert @user.valid?, "#{e} should be valid"
 		end
 	end
 
@@ -74,8 +74,7 @@ class UserTest < ActiveSupport::TestCase
 								)
 		unvalid.each do |e| 
 			@user.email = e
-			puts e
-			assert_not @user.valid?
+			assert_not @user.valid?, "#{e} should not be valid"
 		end
 	end
 
@@ -83,6 +82,13 @@ class UserTest < ActiveSupport::TestCase
 		duplicate_user = @user.dup
 		@user.save
 		assert_not duplicate_user.valid?
+	end
+
+	test "emails should be saved LOWER_CASE" do
+		camel_email  = "UseR@eXampLe.com" 
+		@user.email = camel_email
+		@user.save
+		assert_equal camel_email.downcase, @user.reload.email 
 	end
 
 	# PASSWORD

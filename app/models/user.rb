@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+	before_save { self.email = email.downcase }
 	EMAIL_REGEX = /\A^\w+[\w+-]+\.{0,1}[\w]+@\[*\w+[\w.-]+\w+\.\w+\]*$\z/i
 
 
