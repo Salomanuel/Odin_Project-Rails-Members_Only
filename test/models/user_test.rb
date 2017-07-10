@@ -11,97 +11,100 @@ class UserTest < ActiveSupport::TestCase
 	end
 
 	# NAME 
-	test "name cannot be blank" do
-		@user.name = ""
-		assert_not @user.valid?
-	end
+		test "name cannot be blank" do
+			@user.name = ""
+			assert_not @user.valid?
+		end
 
-	test "name cannot be too long" do
-		@user.name = "a" * 50
-		assert_not @user.valid?
-	end
+		test "name cannot be too long" do
+			@user.name = "a" * 50
+			assert_not @user.valid?
+		end
 
 	# EMAIL
-	test "email cannot be blank" do
-		@user.email = ""
-		assert_not @user.valid?
-	end
-
-	test "email cannot be too long" do
-		@user.email = "a" * 50 + "@example.com"
-		assert_not @user.valid?
-	end
-
-	test "valid emails are valid" do
-		valid = %w(
-							email@example.com
-							firstname.lastname@example.com
-							email@subdomain.example.com
-							firstname+lastname@example.com
-							email@123.123.123.123
-							email@[123.123.123.123]
-							1234567890@example.com
-							email@example-one.com
-							_______@example.com
-							email@example.name
-							email@example.museum
-							email@example.co.jp
-							firstname-lastname@example.com)
-		valid.each 		do |e| 
-			@user.email = e
-			assert @user.valid?, "#{e} should be valid"
+		test "email cannot be blank" do
+			@user.email = ""
+			assert_not @user.valid?
 		end
-	end
 
-	test "NOT valid emails are unvalid" do
-		unvalid = %w(								plainaddress
-									#@%^%#$@#$@#.com
-									@example.com
-									email.example.com
-									email.@example.com
-									あいうえお@example.com
-									email@example
-									email@-example.com
-									email@example..com
-
-									JoeSmith<email@example.com>
-									email@example@example.com
-									.email@example.com
-									email..email@example.com
-									email@example.com(JoeSmith)		
-									Abc..123@example.com
-
-								)
-		unvalid.each do |e| 
-			@user.email = e
-			assert_not @user.valid?, "#{e} should not be valid"
+		test "email cannot be too long" do
+			@user.email = "a" * 50 + "@example.com"
+			assert_not @user.valid?
 		end
-	end
 
-	test "emails should be UNIQUE" do
-		duplicate_user = @user.dup
-		@user.save
-		assert_not duplicate_user.valid?
-	end
+		test "valid emails are valid" do
+			valid = %w(
+								email@example.com
+								firstname.lastname@example.com
+								email@subdomain.example.com
+								firstname+lastname@example.com
+								email@123.123.123.123
+								email@[123.123.123.123]
+								1234567890@example.com
+								email@example-one.com
+								_______@example.com
+								email@example.name
+								email@example.museum
+								email@example.co.jp
+								firstname-lastname@example.com)
+			valid.each 		do |e| 
+				@user.email = e
+				assert @user.valid?, "#{e} should be valid"
+			end
+		end
 
-	test "emails should be saved LOWER_CASE" do
-		camel_email  = "UseR@eXampLe.com" 
-		@user.email = camel_email
-		@user.save
-		assert_equal camel_email.downcase, @user.reload.email 
-	end
+		test "NOT valid emails are unvalid" do
+			unvalid = %w(								plainaddress
+										#@%^%#$@#$@#.com
+										@example.com
+										email.example.com
+										email.@example.com
+										あいうえお@example.com
+										email@example
+										email@-example.com
+										email@example..com
+
+										JoeSmith<email@example.com>
+										email@example@example.com
+										.email@example.com
+										email..email@example.com
+										email@example.com(JoeSmith)		
+										Abc..123@example.com
+
+									)
+			unvalid.each do |e| 
+				@user.email = e
+				assert_not @user.valid?, "#{e} should not be valid"
+			end
+		end
+
+		test "emails should be UNIQUE" do
+			duplicate_user = @user.dup
+			@user.save
+			assert_not duplicate_user.valid?
+		end
+
+		test "emails should be saved LOWER_CASE" do
+			camel_email  = "UseR@eXampLe.com" 
+			@user.email = camel_email
+			@user.save
+			assert_equal camel_email.downcase, @user.reload.email 
+		end
 
 	# PASSWORD
 
-	test "password cannot be blank" do
-		skip
-		@user.password = ""
-		assert_not @user.valid?
-	end
+		test "password cannot be blank" do
+			@user.password = " "
+			assert_not @user.valid?
+		end
 
-	test "password cannot be too short" do
-		skip
-		@user.password = "abcde"
-		assert_not @user.valid?
-	end
+		test "password cannot be too short" do
+			@user.password = "abcde"
+			assert_not @user.valid?
+		end
+
+		test "password_confirmation works" do
+			@user.password_confirmation = "banana"
+			assert_not @user.valid?
+		end
 end
