@@ -1,5 +1,5 @@
 class MembersPagesController < ApplicationController
 	def home
-		@user = User.all
+		@user = User.new
 	end
 end
