@@ -107,4 +107,20 @@ class UserTest < ActiveSupport::TestCase
 			@user.password_confirmation = "banana"
 			assert_not @user.valid?
 		end
+
+	# SIGN UP
+		test "valid signup" do
+			assert_difference 'User.count', 1 do
+			 @user.save 
+			end			
+		end
+
+	# SIGN IN
+		test "authentication should not work with wrong credentials" do
+			assert_not @user.authenticate("")
+		end
+
+		test "user can login" do
+			assert @user.authenticate(@user.password)
+		end
 end
