@@ -12,6 +12,10 @@ class UserTest < ActiveSupport::TestCase
 		assert @user.valid?
 	end
 
+	test "authenticate should work" do 
+		assert_equal @user.authenticate(@user.password), @user
+	end
+
 	test "validations" do
 	end
 
