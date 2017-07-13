@@ -7,10 +7,14 @@ class UsersController < ApplicationController
 	def create
 		@user = User.new(strong_params)
 		if @user.save
-			# success
+			redirect_to root_path
 		else
 			render :new
 		end
+	end
+
+	def show
+		@user = User.find(params[:id])
 	end
 
 	private

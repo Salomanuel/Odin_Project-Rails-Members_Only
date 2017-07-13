@@ -1,4 +1,6 @@
 require 'test_helper'
+include SessionsHelper
+
 
 class SiteLayoutTest < ActionDispatch::IntegrationTest
 
@@ -6,11 +8,11 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
 		# skip
 		get root_url
 		assert_select "a[href=?]", signup_path
-		# if not signed_in?
+		if not logged_in?
 			assert_select "a[href=?]", login_path
-		# else
+		else
 			assert_select "a[href=?]", logout_path
-		# end
+		end
 	end
 
 end
