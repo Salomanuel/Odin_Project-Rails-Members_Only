@@ -18,4 +18,12 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
 		end
 	end
 
+	test "invalid signup" do
+		assert_no_difference "User.count" do
+			post users_path, params: { user: { password: "foo", 
+														password_confirmation: "bar " } }
+		end
+		assert_select "form"
+		assert_select "input", type:"text", name:"user[name]"
+	end
 end

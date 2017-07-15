@@ -12,12 +12,13 @@
     <%= yield %>
     <%= debug(params) if Rails.env.development? %>
 
-    <%= link_to "sign up", signup_path %>
+    <%= link_to "home"      , root_path %> <br>
+    <%= link_to "sign up"   , signup_path %>
     |
     <% if logged_in? %>
-      <%= link_to "log out", logout_path %>
+      <%= link_to "log out" , logout_path %>
     <% else %>
-      <%= link_to "log in" , login_path  %>
+      <%= link_to "log in"  , login_path  %>
     <% end %>    
   </body>
 </html>
