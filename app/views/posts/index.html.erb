@@ -5,7 +5,9 @@
 		<li>
 			<% user = User.find(post.user_id) %>
 			<%= link_to post.title, post %>
-			by <%= link_to user.name, user %>	
+			<% if !@current_user.nil? %>
+				by <%= link_to user.name, user %>	
+			<% end %>
 		</li>
 	<% end %>
 </ul>
