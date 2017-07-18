@@ -1,0 +1,11 @@
+<h1>all posts</h1>
+
+<ul>
+	<% @posts.each do |post| %>
+		<li>
+			<% user = User.find(post.user_id) %>
+			<%= link_to post.title, post %>
+			by <%= link_to user.name, user %>	
+		</li>
+	<% end %>
+</ul>
